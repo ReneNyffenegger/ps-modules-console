@@ -44,8 +44,8 @@ function get-textInConsoleXColor {
       [System.ConsoleColor] $fg
    )
 
-   $ret += ( get-ansiForConsoleColor  $bg $true  )
-   $ret += ( get-ansiForConsoleColor  $fg $false  )
+   $ret += ( get-ansiForConsoleColor  $bg $true )
+   $ret += ( get-ansiForConsoleColor  $fg $false)
 
    $ret += $text
 
@@ -63,10 +63,26 @@ function get-textInConsoleWarningColor {
    return get-textInConsoleXColor $host.PrivateData.WarningBackgroundColor $host.PrivateData.WarningForegroundColor
 }
 
+function write-textInConsoleWarningColor {
+   param (
+      [string] $text
+   )
+
+   write-host (get-textInConsoleWarningColor $text)
+}
+
 function get-textInConsoleErrorColor {
    param (
       [string] $text
    )
 
    return get-textInConsoleXColor $host.PrivateData.ErrorBackgroundColor $host.PrivateData.ErrorForegroundColor
+}
+
+function write-textInConsoleErrorColor {
+   param (
+      [string] $text
+   )
+
+   write-host (get-textInConsoleErrorColor $text)
 }
