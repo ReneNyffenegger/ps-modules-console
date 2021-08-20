@@ -98,7 +98,8 @@ function get-consoleLineText {
 
    param (
       [parameter(mandatory=$false)]
-      [int]                         $line = -1
+      [int]                         $line  = -1,
+      [switch]                      $noTrimEnd
    )
 
    if ($line -lt 0) {
@@ -114,6 +115,10 @@ function get-consoleLineText {
    $ret= ''
    foreach ($cell in $cells) {
       $ret += $cell.Character
+   }
+
+   if (-not $noTrimEnd) {
+      $ret = $ret.TrimEnd()
    }
 
    return $ret
