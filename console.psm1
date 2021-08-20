@@ -2,8 +2,10 @@ set-strictMode -version latest
 
 function get-ansiForConsoleColor {
     param (
-       [System.ConsoleColor] $consoleColor,
-       [bool]                $is_bg = $false
+      [parameter(mandatory=$true)]
+       [System.ConsoleColor]           $consoleColor,
+      [parameter(mandatory=$false)]
+       [bool]                          $is_bg = $false
     )
 
     [byte] $color = $consoleColor.value__
@@ -31,17 +33,19 @@ function get-ansiForConsoleColor {
     else       { if ($is_bg) { $ret += '4' } else { $ret += '10'}}
 
     $ret += $code
-
     $ret += 'm'
 
     return $ret
-
 }
 
 function get-textInConsoleXColor {
    param (
-      [System.ConsoleColor] $bg,
-      [System.ConsoleColor] $fg
+      [parameter(mandatory=$true)]
+      [System.ConsoleColor]           $bg,
+      [parameter(mandatory=$true)]
+      [System.ConsoleColor]           $fg,
+      [parameter(mandatory=$true)]
+      [string]                        $text
    )
 
    $ret += ( get-ansiForConsoleColor  $bg $true )
@@ -57,15 +61,17 @@ function get-textInConsoleXColor {
 
 function get-textInConsoleWarningColor {
    param (
-      [string] $text
+      [parameter(mandatory=$true)]
+      [string]                     $text
    )
 
-   return get-textInConsoleXColor $host.PrivateData.WarningBackgroundColor $host.PrivateData.WarningForegroundColor
+   return get-textInConsoleXColor $host.PrivateData.WarningBackgroundColor $host.PrivateData.WarningForegroundColor $text
 }
 
 function write-textInConsoleWarningColor {
    param (
-      [string] $text
+      [parameter(mandatory=$true)]
+      [string]                     $text
    )
 
    write-host (get-textInConsoleWarningColor $text)
@@ -73,16 +79,42 @@ function write-textInConsoleWarningColor {
 
 function get-textInConsoleErrorColor {
    param (
-      [string] $text
+      [parameter(mandatory=$true)]
+      [string]                     $text
    )
-
-   return get-textInConsoleXColor $host.PrivateData.ErrorBackgroundColor $host.PrivateData.ErrorForegroundColor
+   return get-textInConsoleXColor $host.PrivateData.ErrorBackgroundColor $host.PrivateData.ErrorForegroundColor $text
 }
 
 function write-textInConsoleErrorColor {
    param (
-      [string] $text
+      [parameter(mandatory=$true)]
+      [string]                     $text
    )
 
    write-host (get-textInConsoleErrorColor $text)
+}
+
+function get-consoleLineText {
+
+   param (
+      [parameter(mandatory=$false)]
+      [int]                         $line = -1
+   )
+
+   if ($line -lt 0) {
+      $line = $host.ui.rawui.CursorPosition.Y + $line-1
+   }
+
+   $region = new-object System.Management.Automation.Host.Rectangle `
+          0                                   ,$line,               `
+         ($host.ui.rawui.BufferSize.Width  -1),$line
+
+   $cells = $host.ui.rawui.GetBufferContents($region)
+
+   $ret= ''
+   foreach ($cell in $cells) {
+      $ret += $cell.Character
+   }
+
+   return $ret
 }

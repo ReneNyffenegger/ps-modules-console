@@ -1,6 +1,6 @@
 @{
    RootModule         = 'console'
-   ModuleVersion      = '0.0.2'
+   ModuleVersion      = '0.3'
 
    RequiredAssemblies = @()
 
@@ -8,7 +8,8 @@
 
    FunctionsToExport  = @(
      'get-textInConsoleWarningColor', 'write-textInConsoleWarningColor'
-     'get-textInConsoleErrorColor'  , 'write-textInConsoleErrorColor'
+     'get-textInConsoleErrorColor'  , 'write-textInConsoleErrorColor',
+     'get-consoleLineText'
    )
 
    AliasesToExport   = @()
