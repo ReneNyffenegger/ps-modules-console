@@ -1,5 +1,112 @@
 set-strictMode -version latest
 
+function get-ansiEscapedText {
+
+   param (
+      [parameter(
+        mandatory                   = $true,
+        valueFromRemainingArguments = $true
+      )]
+      [object[]]                      $objs
+   )
+
+   $ret = ''
+   foreach ($obj in $objs) {
+
+     if ($obj -is [SGR]) {
+        $ret += "$([char]27)[$($obj.value__)m"
+     }
+     else {
+        $ret += $obj
+     }
+
+   }
+
+   return $ret
+
+}
+
+function set-cursorPosition {
+   param(
+      [uint16] $x,
+      [uint16] $y
+   )
+
+   write-host -noNewLine "$([char]27)[$x;${y}H"
+}
+
+function move-cursor {
+
+   param(
+      [uint16] $n,
+      [char]   $c
+   )
+
+   write-host -noNewLine "$([char]27)[$n$c"
+
+}
+
+function move-cursorUp {
+   param( [uint16] $n = 1)
+   move-cursor $n A
+}
+
+function move-cursorDown {
+   param( [uint16] $n = 1)
+   move-cursor $n B
+}
+
+function move-cursorRight {
+   param( [uint16] $n = 1)
+   move-cursor $n F           # F apparently stands for forward
+}
+
+function move-cursorLeft {
+   param( [uint16] $n = 1)
+   move-cursor $n B           # F apparently stands for backward
+}
+
+function move-cursorLine {
+   param( [uint16] $n)
+   move-cursor $n d
+}
+
+function move-cursorColumn {
+   param( [uint16] $n)
+   move-cursor $n G
+}
+
+function move-cursorNextLine {
+   param( [uint16] $n)
+   move-cursor $n E
+}
+
+function move-cursorPreviousLine {
+   param( [uint16] $n)
+   move-cursor $n F
+}
+
+function save-cursorPosition {
+   write-host -noNewLine "$([char]27)[s"
+}
+
+function restore-cursorPosition {
+   write-host -noNewLine "$([char]27)[u"
+}
+
+function set-consolePaletteColor {
+
+   param (
+      [byte] $paletteIndex,
+      [byte] $r,
+      [byte] $g,
+      [byte] $b
+   )
+
+   write-host -noNewLine ("$([char]27)]4;{0};rgb:{1:X2}/{2:X2}/{3:X2}$([char]7)" -f $paletteIndex, $r, $g, $b)
+
+}
+
 function get-ansiForConsoleColor {
     param (
       [parameter(mandatory=$true)]
@@ -123,3 +230,5 @@ function get-consoleLineText {
 
    return $ret
 }
+
+
