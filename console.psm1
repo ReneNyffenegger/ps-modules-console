@@ -26,6 +26,30 @@ function get-ansiEscapedText {
 
 }
 
+function get-paletteIndexOfConsoleColor {
+   param (
+     [System.ConsoleColor] $color
+   )
+
+   if ($color -eq [System.ConsoleColor]::black      ) { return  0}
+   if ($color -eq [System.ConsoleColor]::darkBlue   ) { return  1}
+   if ($color -eq [System.ConsoleColor]::darkGreen  ) { return  2}
+   if ($color -eq [System.ConsoleColor]::darkCyan   ) { return  3}
+   if ($color -eq [System.ConsoleColor]::darkRed    ) { return  4}
+   if ($color -eq [System.ConsoleColor]::darkMagenta) { return  5}
+   if ($color -eq [System.ConsoleColor]::darkYellow ) { return  6}
+   if ($color -eq [System.ConsoleColor]::gray       ) { return  7}
+
+   if ($color -eq [System.ConsoleColor]::darkGray   ) { return  8}
+   if ($color -eq [System.ConsoleColor]::blue       ) { return  9}
+   if ($color -eq [System.ConsoleColor]::green      ) { return 10}
+   if ($color -eq [System.ConsoleColor]::cyan       ) { return 11}
+   if ($color -eq [System.ConsoleColor]::red        ) { return 12}
+   if ($color -eq [System.ConsoleColor]::magenta    ) { return 13}
+   if ($color -eq [System.ConsoleColor]::yellow     ) { return 14}
+   if ($color -eq [System.ConsoleColor]::white      ) { return 15}
+}
+
 function set-cursorPosition {
    param(
       [uint16] $x,
@@ -103,8 +127,26 @@ function set-consolePaletteColor {
       [byte] $b
    )
 
-   write-host -noNewLine ("$([char]27)]4;{0};rgb:{1:X2}/{2:X2}/{3:X2}$([char]7)" -f $paletteIndex, $r, $g, $b)
+   $index = switch ($paletteIndex) {
+      0 {  0 }
+      1 {  4 }
+      2 {  2 }
+      3 {  6 }
+      4 {  1 }
+      5 {  5 }
+      6 {  3 }
+      7 {  7 }
+      8 {  8 }
+      9 { 12 }
+     10 { 10 }
+     11 { 14 }
+     12 {  9 }
+     13 { 13 }
+     14 { 11 }
+     15 { 15 }
+   }
 
+   write-host -noNewLine ("$([char]27)]4;{0};rgb:{1:X2}/{2:X2}/{3:X2}$([char]7)" -f $index, $r, $g, $b)
 }
 
 function get-ansiForConsoleColor {

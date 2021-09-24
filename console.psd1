@@ -13,6 +13,7 @@
      'move-cursorNextLine', 'move-cursorPreviousLine',
      'move-cursorLine', 'move-cursorColumn',
      'save-cursorPosition', 'restore-cursorPosition',
+     'get-paletteIndexOfConsoleColor',
      'set-consolePaletteColor',
      'get-textInConsoleWarningColor', 'write-textInConsoleWarningColor'
      'get-textInConsoleErrorColor'  , 'write-textInConsoleErrorColor',
