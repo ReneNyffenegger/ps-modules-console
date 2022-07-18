@@ -59,6 +59,36 @@ function set-cursorPosition {
    write-host -noNewLine "$([char]27)[$x;${y}H"
 }
 
+function set-consoleSize {
+ #
+ # Inspired and copied from https://ss64.com/ps/syntax-consolesize.html
+ #
+
+ [cmdletBinding()]
+  param(
+     [int] $reqHeight,
+     [int] $reqWidth
+  )
+
+  $console    = $host.ui.rawui
+  $conBuffer  = $console.BufferSize
+  $conSize    = $console.WindowSize
+
+  $height     = [Math]::Min($host.UI.RawUI.MaxPhysicalWindowSize.Height, $reqHeight)
+  $width      = [Math]::Min($host.UI.RawUI.MaxPhysicalWindowSize.Width , $reqWidth )
+
+  $currWidth  = $ConSize.Width
+  $currHeight = $ConSize.height
+
+  $currWidth  = [Math]::Min($conBuffer.Width , $width )
+  $currHeight = [Math]::Min($conBuffer.Height, $height)
+
+  $host.UI.RawUI.WindowSize = new-object System.Management.Automation.Host.Size($currWidth, $currHeight)
+  $host.UI.RawUI.BufferSize = new-object System.Management.Automation.Host.Size($Width, $conBuffer.height)
+  $host.UI.RawUI.WindowSize = new-object System.Management.Automation.Host.Size($Width, $height)
+
+}
+
 function move-cursor {
 
    param(

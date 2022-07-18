@@ -1,6 +1,6 @@
 @{
    RootModule         = 'console'
-   ModuleVersion      = '0.4'
+   ModuleVersion      = '0.5'
 
    RequiredAssemblies = @()
 
@@ -15,6 +15,7 @@
      'save-cursorPosition', 'restore-cursorPosition',
      'get-paletteIndexOfConsoleColor',
      'set-consolePaletteColor',
+     'set-consoleSize',
      'get-textInConsoleWarningColor', 'write-textInConsoleWarningColor'
      'get-textInConsoleErrorColor'  , 'write-textInConsoleErrorColor',
      'get-consoleLineText'
