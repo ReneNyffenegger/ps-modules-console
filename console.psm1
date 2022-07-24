@@ -66,8 +66,8 @@ function set-consoleSize {
 
  [cmdletBinding()]
   param(
-     [int] $reqHeight,
-     [int] $reqWidth
+     [int] $reqWidth,
+     [int] $reqHeight
   )
 
   $console    = $host.ui.rawui
