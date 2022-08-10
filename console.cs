@@ -22,7 +22,13 @@ public static class Console {
         public uint  cbSize;
         public uint  n;
         public COORD size;
-        public int   family;
+
+        public int   family; // The four low-order bits of 'family' specify information about the pitch and the technology:
+                             //     1 = TMPF_FIXED_PITCH, 2 = TMPF_VECTOR, 4 = TMPF_TRUETYPE, 8 = TMPF_DEVICE.
+                             // The four high-order bits specifies the fonts family:
+                             //     80 = FF_DECORATIVE, 0 = FF_DONTCARE, 48 = FF_MODERN, 16 = FF_ROMAN, 64 = FF_SCRIPT, 32 = FF_SWISS
+                             //     I assume(!) this value is always 48.
+                             //    (In fact, it seems that family is is always 54 = TMPF_VECTOR + TMPF_TRUETYPE + FF_MODERN)
         public int   weight;
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
