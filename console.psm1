@@ -303,4 +303,25 @@ function get-consoleLineText {
    return $ret
 }
 
+function get-consoleFont {
+   [Win32API.Console]::GetFont()
+}
 
+function set-consoleFontSize {
+   param (
+    # [int16] $w,  # V.8: The width does not seem to have any influence
+      [int16] $h
+   )
+   [int16] $w = 0
+   [Win32API.Console]::SetSize($w, $h)
+}
+
+function set-consoleFontName {
+   param (
+      [string] $name
+   )
+   [Win32API.Console]::SetName($name)
+}
+
+$src = get-content -raw "$psScriptRoot\console.cs"
+add-type -typeDef $src
