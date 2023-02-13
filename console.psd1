@@ -1,6 +1,6 @@
 @{
    RootModule         = 'console'
-   ModuleVersion      = '0.8'
+   ModuleVersion      = '0.9'
 
    RequiredAssemblies = @()
 
@@ -27,6 +27,6 @@
    AliasesToExport   = @()
 
    ScriptsToProcess  = @(
-      'console.ps1'
+    # 'console.ps1'       # V0.9: apparently not used, why has it ever gotten into the psd?
    )
 }
