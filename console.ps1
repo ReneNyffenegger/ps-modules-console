@@ -1,3 +1,6 @@
+#
+#  V09: This file does not seem to be used!
+#
 enum SGR { # SGR = Select Graphic Rendition
 
   reset         =  0
